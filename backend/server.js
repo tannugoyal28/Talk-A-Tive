@@ -1,6 +1,7 @@
 const express = require('express');
 const chats = require('./data/data.js');
 const dotenv = require('dotenv');
+const cors = require('cors')
 const connectDB = require('./config/db.js');
 const userRoutes = require('./routes/userRoutes.js');
 const chatRoutes = require('./routes/chatRoutes.js');
@@ -8,20 +9,15 @@ const messageRoutes = require('./routes/messageRoutes.js');
 const {notFound , errorHandler} = require('./middleware/errorMiddleware.js')
 const path = require('path');
 
-// const _dirname1 = path.resolve();
-// if(process.env.NODE_ENV==="production"){
-//     app.use(express.static(path.join(_dirname1,'/frontend/build')));
-// }else{
-//     app.get('/',(req,res)=>{
-//         res.send("API is running");
-//     });   
-// }
 
 dotenv.config();
 connectDB();
 
 const app = express();
 app.use(express.json()); //to accept JSON data
+app.use(cors({
+    allow:"*"
+}))
 
 app.get('/',(req,res)=>{
         res.send("API is running");
@@ -43,7 +39,7 @@ const server = app.listen(Port,()=>{
 const io = require('socket.io')(server,{
     pingTimeout:60000,
     cors:{
-        origin:"http://localhost:3000",
+        origin:"*",
     },
 });
 
