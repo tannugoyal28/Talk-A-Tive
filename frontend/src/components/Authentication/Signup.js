@@ -95,7 +95,7 @@ const Signup = () => {
                     "Content-type":"application/json",
                 },
             };
-            const { data } = await axios.post("/api/user",{name,email,password,pic},
+            const { data } = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user`,{name,email,password,pic},
             config
             );
             toast({
